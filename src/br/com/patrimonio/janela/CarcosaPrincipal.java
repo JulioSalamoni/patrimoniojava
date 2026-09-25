@@ -165,6 +165,12 @@ public class CarcosaPrincipal extends JFrame {
 		mnConsulta.add(ItemListarTudo);
 		
 		JMenuItem ItemLstUsuario = new JMenuItem("Usuário");
+		ItemLstUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ListarUsuarios().setVisible(true);
+				
+			}
+		});
 		ItemListarTudo.add(ItemLstUsuario);
 		
 		JMenuItem ItemLstCursos = new JMenuItem("Cursos");

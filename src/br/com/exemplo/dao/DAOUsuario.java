@@ -82,8 +82,58 @@ public class DAOUsuario extends Conexao implements IUsuario<Usuarios>{
 
 	@Override
 	public Usuarios listarID(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Usuarios lista = new Usuarios();
+		try {
+			if (abrir()) {
+				String sql = "SELECT * FROM usuarios WHERE id="+id;
+				//Preparar a consulta para ser executada
+				pst = con.prepareStatement(sql);
+				//Executar a consulta com o comando executeQuery, assim teremos
+				//o comando Select sendo executado. O resultado da consulta é
+				//Guardado em uma variável do tipo ResultSet(rs). Sempre que você
+				//tiver uma consulta SELECT o retorno desta consulta deve ficar
+				//em um ResultSet
+				
+				rs = pst.executeQuery();
+				//O comando next() faz o cursos se movimentar para adiante
+				//dentro da tabela, quando há dados. Se não houver dados
+				//o cursor não se movimenta e retorna falso, indicando
+				//que os dados da tabela acabaram
+				while(rs.next()) {
+					//Todas as vezes que o laço while "roda" significa que
+					//o comando next() executou e assim foi para a próxima
+					//linha e trazendo os dados desta linha.
+					//Para organizar e guardar os dados dos usuários, criamos
+					//um novo usuário da camada POJO e, passamos todos os dados
+					//retornados do rs para cada campo do usuário.
+					//Depois adicionamos este usuário a lista de usuários selecionados.
+					Usuarios us = new Usuarios();
+					us.setId(rs.getInt(1));
+					us.setNome(rs.getString(2));
+					us.setEmail(rs.getString(3));
+					//us.setPerfil((Perfil)rs.getObject(5));
+					us.setAtivo(rs.getBoolean(6));
+					us.setCriado_em(rs.getDate(7));
+					us.setAtualizado_em(rs.getDate(8));
+					
+					lista =us;
+				}
+			}
+			else {
+				System.out.println("Erro ao tentar abrir a conexão");
+			}
+		}
+		catch(SQLException se) {
+			System.out.print("Erro ao tentar executar a consulta. Mensagem:"+se.getMessage());
+		}
+		catch(Exception e) {
+			System.out.println("Erro inesperado, Mensagem:"+e.getMessage());
+		}
+		finally {
+			fechar();
+		}
+		
+		return lista;
 	}
 
 	@Override
