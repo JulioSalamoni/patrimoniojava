@@ -161,7 +161,7 @@ public class CarcosaPrincipal extends JFrame {
 		mnConsulta.setMnemonic('s');
 		menuBar.add(mnConsulta);
 		
-		JMenu ItemListarTudo = new JMenu("Listar Tudo");
+		JMenu ItemListarTudo = new JMenu("Listar");
 		mnConsulta.add(ItemListarTudo);
 		
 		JMenuItem ItemLstUsuario = new JMenuItem("Usuário");
@@ -183,19 +183,25 @@ public class CarcosaPrincipal extends JFrame {
 		ItemListarTudo.add(ItemLstCursos);
 		
 		JMenuItem ItemLstLocais = new JMenuItem("Locais");
+		ItemLstLocais.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				new ListarLocais().setVisible(true);
+			}
+		});
 		ItemListarTudo.add(ItemLstLocais);
 		
 		JMenuItem ItemLstPatrimonio = new JMenuItem("Patrimônio");
 		ItemListarTudo.add(ItemLstPatrimonio);
 		
-		JMenu ItemPesquisarPorID = new JMenu("Pesquisar Por ID");
-		mnConsulta.add(ItemPesquisarPorID);
+		JMenuItem mntmNewMenuItem = new JMenuItem("Categorias");
+		ItemListarTudo.add(mntmNewMenuItem);
 		
-		JMenuItem ItemPorIDMovientacao = new JMenuItem("Movimentação");
-		ItemPesquisarPorID.add(ItemPorIDMovientacao);
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Baixas Patrimoniais");
+		ItemListarTudo.add(mntmNewMenuItem_1);
 		
-		JMenuItem ItemPorIDBaixarPatrimonio = new JMenuItem("Baixar Patrimônio");
-		ItemPesquisarPorID.add(ItemPorIDBaixarPatrimonio);
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Movimentações");
+		ItemListarTudo.add(mntmNewMenuItem_2);
 		
 		JSeparator separator = new JSeparator();
 		mnConsulta.add(separator);
