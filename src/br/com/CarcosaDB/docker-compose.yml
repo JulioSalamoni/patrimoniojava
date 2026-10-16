@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: carcosa-sqk
+    restart: unless-stopped
+    command: 
+# Permite o acesso ao schemas(banco de dados) do mysql
+      - --performance-schema=ON
+# Permite obter as metricas de query(consultas) lentas(slow)
+      - --slow-query-log=ON
+# Define quanto tempo irá esperar par aobter as métricas de queries lentas
+      - --long-query-time=1
+# Obtem as metricas de queries que não usam indices(chaves)
+      - --log-queries-not-using-indexes=ON
+# Permite o acesso e monitoramento das bases que são do engine innodb
+      - --innodb-monitor-enable=all
+
+    environment:
+      MYSQL_ROOT_PASSWORD: 123@Senac
+      MYSQL_DATABASE: carcosadb
+      MYSQL_USER: senac
+      MYSQL_PASSWORD: 123@Senac
+    ports:
+      - "5837:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin","ping","-h", "localhost","-p123senac"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+# Serviço de rede onde os demais serviços estarão conectados
+    networks:
+      - monitoring
+
+
+
+volumes:
+  mysql_data:
+#  prometheus_data:
+# grafana_data:
+
+networks:
+  monitoring:
+    driver: bridge
